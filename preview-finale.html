@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Finale Preview</title>
+<link rel="stylesheet" href="style.css">
+<style>
+body{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;margin:0;background:#0d0a0c;gap:18px;padding:20px;box-sizing:border-box;}
+.replay-btn{background:transparent;border:1px solid #555;color:#aaa;border-radius:999px;padding:10px 26px;font-size:14px;font-weight:700;letter-spacing:1px;cursor:pointer;}
+.replay-btn:active{transform:scale(.95);}
+.note{color:#5a5f6e;font-size:12px;}
+</style>
+</head><body>
+  <div class="overlay" style="position:static">
+    <div class="overlay-card devil-card">
+      <div id="paulSplit" class="play">
+        <div class="paul-half paul-top">Paul</div>
+        <div class="paul-half paul-bottom">Paul</div>
+        <div id="paulDevil">😈</div>
+      </div>
+      <h2 id="zoneTitle">ALL 10 LEVELS CLEARED!</h2>
+      <p id="zoneSub">You survived the Devil's Gauntlet. LEGEND. 😈</p>
+      <button class="primary-btn">CONTINUE</button>
+    </div>
+  </div>
+  <button class="replay-btn" id="replayBtn">↻ REPLAY ANIMATION</button>
+  <div class="note">preview only — not part of the game</div>
+<script>
+var ps = document.getElementById('paulSplit');
+document.getElementById('replayBtn').addEventListener('click', function () {
+  ps.classList.remove('play');
+  void ps.offsetWidth;
+  ps.classList.add('play');
+});
+</script>
+</body></html>
