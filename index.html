@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+<title>Trapdoor Dash 3</title>
+<meta name="description" content="Trapdoor Dash 3 — 30 devilish levels across 3 zones. Run, dodge, survive." />
+<meta name="theme-color" content="#0d0a0f" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Trapdoor Dash 3" />
+<link rel="manifest" href="manifest.json" />
+<link rel="apple-touch-icon" href="icon-180.png" />
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div id="app">
+
+  <!-- MAIN MENU -->
+  <div id="mainMenu" class="screen">
+    <div class="menu-devil">😈</div>
+    <h1 class="title">TRAPDOOR DASH <span class="three">3</span></h1>
+    <p class="subtitle">PAUL'S DEVIL RUN</p>
+    <div id="menuStars" class="menu-stars">💫 <span id="menuStarsVal">0</span> stars</div>
+    <button id="playBtn" class="primary-btn big-play">▶ PLAY</button>
+    <button id="menuMuteBtn" class="secondary-btn">🔊 SOUND ON</button>
+    <p class="menu-hint">30 levels · 3 worlds · How long can you survive?</p>
+  </div>
+
+  <!-- CHARACTER SELECT -->
+  <div id="characterSelect" class="screen hidden">
+    <h1 class="title">TRAPDOOR DASH <span class="three">3</span></h1>
+    <p class="subtitle">30 levels · 3 zones · Pick your runner</p>
+    <div id="charGrid" class="char-grid">
+      <button class="char-card" data-char="0">
+        <div class="char-avatar"><div class="char-avatar-eye"></div><div class="char-avatar-eye"></div></div>
+        <span class="char-name">Marley</span>
+      </button>
+      <button class="char-card" data-char="1">
+        <div class="char-avatar"><div class="char-avatar-eye"></div><div class="char-avatar-eye"></div></div>
+        <span class="char-name">Miral</span>
+      </button>
+      <button class="char-card" data-char="2">
+        <div class="char-avatar"><div class="char-avatar-eye"></div><div class="char-avatar-eye"></div></div>
+        <span class="char-name">John</span>
+      </button>
+      <button class="char-card" data-char="3">
+        <div class="char-avatar"><div class="char-avatar-eye"></div><div class="char-avatar-eye"></div></div>
+        <span class="char-name">Paul</span>
+      </button>
+      <button class="char-card" data-char="4">
+        <div class="char-avatar"><div class="char-avatar-eye"></div><div class="char-avatar-eye"></div></div>
+        <span class="char-name">Marmar</span>
+      </button>
+      <button class="char-card" data-char="5">
+        <div class="char-avatar"><div class="char-avatar-eye"></div><div class="char-avatar-eye"></div></div>
+        <span class="char-name">Miko</span>
+      </button>
+      <button class="char-card" data-char="6">
+        <div class="char-avatar"><div class="char-avatar-eye"></div><div class="char-avatar-eye"></div></div>
+        <span class="char-name">Mariam</span>
+      </button>
+      <button class="char-card gloria-card" data-char="7">
+        <img class="char-photo" src="gloria-avatar.png" alt="Gloria" />
+        <span class="char-name">Gloria</span>
+      </button>
+    </div>
+    <button id="startBtn" class="primary-btn" disabled>SELECT A CHARACTER</button>
+  </div>
+
+  <!-- GAME -->
+  <div id="gameScreen" class="screen hidden">
+    <canvas id="gameCanvas"></canvas>
+
+    <div id="hud">
+      <div id="hudLevel">1-1</div>
+      <div id="hudLives">❤❤❤❤❤</div>
+      <div id="hudStars">★ 0/3</div>
+    </div>
+
+    <button id="muteBtn" aria-label="Mute">🔊</button>
+    <button id="pauseBtn" aria-label="Pause">⏸</button>
+
+    <div id="touchControls">
+      <div id="moveControls">
+        <button id="btnLeft" class="touch-btn move-btn" aria-label="Left">◀</button>
+        <button id="btnRight" class="touch-btn move-btn" aria-label="Right">▶</button>
+      </div>
+      <button id="btnJump" class="touch-btn jump-btn" aria-label="Jump">JUMP</button>
+    </div>
+
+    <div id="readyOverlay" class="overlay hidden">
+      <div class="overlay-card">
+        <h2 id="readyTitle">1-1</h2>
+        <p id="readySub">Watch your step...</p>
+      </div>
+    </div>
+
+    <div id="levelCompleteOverlay" class="overlay hidden">
+      <div class="overlay-card">
+        <h2>Level Complete!</h2>
+        <div id="lcStars" class="big-stars">★★★</div>
+        <p id="lcTries"></p>
+        <p id="lcPoints" class="points-line"></p>
+        <button id="nextLevelBtn" class="primary-btn">NEXT</button>
+        <button id="lcMapBtn" class="secondary-btn">MENU</button>
+      </div>
+    </div>
+
+    <div id="zoneCompleteOverlay" class="overlay hidden">
+      <div class="overlay-card devil-card">
+        <div id="paulSplit">
+          <div class="paul-half paul-top">Paul</div>
+          <div class="paul-half paul-bottom">Paul</div>
+          <div id="paulDevil">😈</div>
+        </div>
+        <h2 id="zoneTitle">Zone Complete!</h2>
+        <p id="zoneSub"></p>
+        <button id="zoneNextBtn" class="primary-btn">CONTINUE</button>
+      </div>
+    </div>
+
+    <div id="gameOverOverlay" class="overlay hidden">
+      <div class="overlay-card devil-card gameover-card">
+        <div class="gameover-devil">😈</div>
+        <h2>GAME OVER</h2>
+        <p id="gameOverSub">The devils got you...</p>
+        <p class="points-line">💫 <span id="gameOverStars">0</span> stars</p>
+        <button id="retryBtn" class="primary-btn">↻ RETRY LEVEL</button>
+        <button id="gameOverMapBtn" class="secondary-btn">MENU</button>
+      </div>
+    </div>
+
+    <div id="pauseOverlay" class="overlay hidden">
+      <div class="overlay-card">
+        <h2>Paused</h2>
+        <p id="hintText" class="hint-text hidden"></p>
+        <button id="hintBtn" class="secondary-btn">💡 HINT (150 PTS)</button>
+        <button id="resumeBtn" class="primary-btn">RESUME</button>
+        <button id="restartBtn" class="secondary-btn">RESTART LEVEL</button>
+        <button id="pauseMapBtn" class="secondary-btn">MENU</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script src="game.js"></script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function () {
+    navigator.serviceWorker.register("sw.js").catch(function () {});
+  });
+}
+</script>
+</body>
+</html>
