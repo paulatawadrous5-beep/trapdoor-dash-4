@@ -183,6 +183,7 @@
   var readyTitle = document.getElementById("readyTitle");
   var readySub = document.getElementById("readySub");
   var levelCompleteOverlay = document.getElementById("levelCompleteOverlay");
+  var paulSplash = document.getElementById("paulSplash");
   var lcStars = document.getElementById("lcStars");
   var lcTries = document.getElementById("lcTries");
   var lcPoints = document.getElementById("lcPoints");
@@ -885,7 +886,6 @@
   function completeLevel() {
     levelActive = false;
     Sound.doorOpen();
-    setTimeout(function () { Sound.win(); }, 200);
     var key = starKey(curZone, curLevel);
     var prevBest = save.stars[key] || 0;
     save.stars[key] = Math.max(prevBest, starsGot);
@@ -905,7 +905,18 @@
     lcStars.innerHTML = sh;
     lcTries.textContent = "Level " + (curZone + 1) + "-" + (curLevel + 1) + " cleared!";
     lcPoints.textContent = firstTime ? "+" + gained + " ⭐  (balance: " + save.balance + ")" : "Already completed — no extra stars. Balance: " + save.balance + " ⭐";
-    levelCompleteOverlay.classList.remove("hidden");
+    // PAUL splash after every level: name splits with the epic sound, then the cleared card
+    var splashSplit = document.getElementById("paulSplitSplash");
+    paulSplash.classList.remove("hidden");
+    splashSplit.classList.remove("play");
+    void splashSplit.offsetWidth;
+    splashSplit.classList.add("play");
+    setTimeout(function () { Sound.paulFinale(); }, 250);
+    setTimeout(function () {
+      paulSplash.classList.add("hidden");
+      splashSplit.classList.remove("play");
+      levelCompleteOverlay.classList.remove("hidden");
+    }, 2000);
   }
 
   function advanceLevel() {
