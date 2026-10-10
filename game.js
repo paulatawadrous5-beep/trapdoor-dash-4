@@ -94,6 +94,35 @@
       var s = this;
       s.tone(90, 0.5, "sawtooth", 0.18, 45);
       s.tone(65, 0.6, "square", 0.12, 40, 0.1);
+    },
+    paulFinale: function () {
+      // epic sound for the PAUL split moment: deep boom + rising roar + devil laugh
+      var s = this;
+      if (s.muted || !s.ctx) return;
+      var t = s.ctx.currentTime;
+      // 1. deep impact boom
+      var o = s.ctx.createOscillator(), g = s.ctx.createGain();
+      o.type = "sine";
+      o.frequency.setValueAtTime(130, t);
+      o.frequency.exponentialRampToValueAtTime(28, t + 0.8);
+      g.gain.setValueAtTime(0.5, t);
+      g.gain.exponentialRampToValueAtTime(0.001, t + 0.85);
+      o.connect(g); g.connect(s.ctx.destination);
+      o.start(t); o.stop(t + 0.9);
+      // 2. rising demonic roar while the letters split
+      var o2 = s.ctx.createOscillator(), g2 = s.ctx.createGain();
+      o2.type = "sawtooth";
+      o2.frequency.setValueAtTime(85, t + 0.1);
+      o2.frequency.exponentialRampToValueAtTime(720, t + 1.0);
+      g2.gain.setValueAtTime(0.0001, t + 0.1);
+      g2.gain.exponentialRampToValueAtTime(0.20, t + 0.85);
+      g2.gain.exponentialRampToValueAtTime(0.001, t + 1.15);
+      o2.connect(g2); g2.connect(s.ctx.destination);
+      o2.start(t + 0.1); o2.stop(t + 1.2);
+      // 3. devil laugh bursts as the emoji pops
+      [0.65, 0.8, 0.95, 1.15].forEach(function (d, i) {
+        s.tone(i % 2 ? 140 : 100, 0.14, "square", 0.14, 60, d);
+      });
     }
   };
 
@@ -893,7 +922,7 @@
       paulSplit.classList.remove("play");
       void paulSplit.offsetWidth;
       paulSplit.classList.add("play");
-      Sound.devil();
+      Sound.paulFinale();
       zoneCompleteOverlay.classList.remove("hidden");
     }
   }
